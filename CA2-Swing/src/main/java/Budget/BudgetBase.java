@@ -27,10 +27,21 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
 
     // widgets which may have listeners and/or values
     private JButton calculateButton;   // Calculate button
-    private JButton exitButton;        // Exit button
+    private JButton exitButton; // Exit button
+
     private JTextField wagesField;     // Wages text field
     private JTextField loansField;     // Loans text field
+    private JTextField salesField;     //Sales text field
+    private JTextField trustFundField; //TrustFund text field
+
+    private JTextField groceriesField; //Groceries text field
+    private JTextField rentField;      //Rent text field
+    private JTextField electricField; //Electric bill text field
+    private JTextField gasField;      //Gas bill text field
+
     private JTextField totalIncomeField; // Total Income field
+    private JTextField totalExpendituresField; //Total Expenditures field
+    private JTextField totalField;      //Total overall field
 
     // constructor - create UI  (dont need to change this)
     public BudgetBase(JFrame frame) {
@@ -48,6 +59,8 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
         JLabel incomeLabel = new JLabel("INCOME");
         addComponent(incomeLabel, 0, 0);
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         // Row 1 - Wages label followed by wages textbox
         JLabel wagesLabel = new JLabel("Wages");
         addComponent(wagesLabel, 1, 0);
@@ -58,6 +71,8 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
         wagesField.setHorizontalAlignment(JTextField.RIGHT) ;    // number is at right end of field
         addComponent(wagesField, 1, 1);   
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         // Row 2 - Loans label followed by loans textbox
         JLabel loansLabel = new JLabel("Loans");
         addComponent(loansLabel, 2, 0);
@@ -67,23 +82,107 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
         loansField.setHorizontalAlignment(JTextField.RIGHT) ;    // number is at right end of field
         addComponent(loansField, 2, 1); 
 
-        // Row 3 - Total Income label followed by total income field
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Row 3 - Sales label followed by sales textbox
+        JLabel salesLabel = new JLabel("Sales");
+        addComponent(salesLabel, 3, 0);
+
+        salesField = new JTextField("",10);
+        salesField.setHorizontalAlignment(JTextField.RIGHT);
+        addComponent(salesField, 3, 1);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JLabel trustFundLabel = new JLabel("Trust Fund");
+        addComponent(trustFundLabel,4,0);
+
+        trustFundField = new JTextField("",10);
+        trustFundField.setHorizontalAlignment(JTextField.RIGHT);
+        addComponent(trustFundField,4,1);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Row 4 - Total Income label followed by total income field
         JLabel totalIncomeLabel = new JLabel("Total Income");
-        addComponent(totalIncomeLabel, 3, 0);
+        addComponent(totalIncomeLabel, 5, 0);
 
         // set up text box for displaying total income.  Users cam view, but cannot directly edit it
         totalIncomeField = new JTextField("0", 10);   // 0 initially, with 10 columns
         totalIncomeField.setHorizontalAlignment(JTextField.RIGHT) ;    // number is at right end of field
         totalIncomeField.setEditable(false);    // user cannot directly edit this field (ie, it is read-only)
-        addComponent(totalIncomeField, 3, 1);  
+        addComponent(totalIncomeField, 5, 1);  
 
-        // Row 4 - Calculate Button
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+         // Top row (0) - "Expenditures" label
+        JLabel Expenditures = new JLabel("Expenditures");
+        addComponent(Expenditures, 0, 2);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //Row 1 - Groceries label followed by groceries textbox
+        JLabel groceriesLabel = new JLabel("Groceries");
+        addComponent(groceriesLabel,1,2);
+
+        groceriesField = new JTextField("",10);
+        groceriesField.setHorizontalAlignment(JTextField.RIGHT);
+        addComponent(groceriesField,1,3);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        //Row 2 - Rent label followed by rent textbox
+        JLabel rentLabel = new JLabel("Rent");
+        addComponent(rentLabel,2,2);
+
+        rentField = new JTextField("",10);
+        rentField.setHorizontalAlignment(JTextField.RIGHT);
+        addComponent(rentField,2,3);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //Row 3- ElectricBill label followed by electricBill textbox
+        JLabel electricLabel = new JLabel("Electric Bill");
+        addComponent(electricLabel,3,2);
+
+        electricField = new JTextField("",10);
+        electricField.setHorizontalAlignment(JTextField.RIGHT);
+        addComponent(electricField,3,3);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JLabel gasLabel = new JLabel("Gas Bill");
+        addComponent(gasLabel,4,2);
+
+        gasField = new JTextField("",10);
+        gasField.setHorizontalAlignment(JTextField.RIGHT);
+        addComponent(gasField,4,3);
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //Row 4- Show total Expenditures
+        JLabel totalExpendituresLabel = new JLabel("Total Expenditures");
+        addComponent(totalExpendituresLabel, 5, 2);
+
+        // set up text box for displaying total Expenditures.  Users cam view, but cannot directly edit it
+        totalExpendituresField = new JTextField("0", 10);   // 0 initially, with 10 columns
+        totalExpendituresField.setHorizontalAlignment(JTextField.RIGHT) ;    // number is at right end of field
+        totalExpendituresField.setEditable(false);    // user cannot directly edit this field (ie, it is read-only)
+        addComponent(totalExpendituresField, 5, 3);  
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Row 5 - Calculate Button
         calculateButton = new JButton("Calculate");
-        addComponent(calculateButton, 4, 0);  
+        addComponent(calculateButton, 6, 0);  
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Row 5 - Exit Button
         exitButton = new JButton("Exit");
-        addComponent(exitButton, 5, 0);  
+        addComponent(exitButton, 7, 0);  
 
         // set up  listeners (in a spearate method)
         initListeners();
@@ -104,6 +203,7 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
         calculateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 calculateTotalIncome();
+                calculateTotalExpenditures();
             }
         });
 
@@ -125,20 +225,32 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
         // get values from income text fields.  valie is NaN if an error occurs
         double wages = getTextFieldValue(wagesField);
         double loans = getTextFieldValue(loansField);
-
+        double sales = getTextFieldValue(salesField);
+        
         // clear total field and return if any value is NaN (error)
-        if (Double.isNaN(wages) || Double.isNaN(loans)) {
+        if (Double.isNaN(wages) || Double.isNaN(loans)|| Double.isNaN(sales)) {
             totalIncomeField.setText("");  // clear total income field
             wages = 0.0;
             return wages;   // exit method and do nothing
         }
-
         // otherwise calculate total income and update text field
-        double totalIncome = wages + loans;
+        double totalIncome = (wages + loans + sales);
         totalIncomeField.setText(String.format("%.2f",totalIncome));  // format with 2 digits after the .
         return totalIncome;
+
     }
 
+    public double calculateTotalExpenditures(){
+
+        double groceries = getTextFieldValue(groceriesField);
+        double rent = getTextFieldValue(rentField);
+        double electricBill = getTextFieldValue(electricField);
+
+
+        double totalExpenditures = (groceries+rent+electricBill);
+        totalExpendituresField.setText(String.format("%.2f",totalExpenditures));
+        return totalExpenditures;
+    }
     // return the value if a text field as a double
     // --return 0 if field is blank
     // --return NaN if field is not a number
