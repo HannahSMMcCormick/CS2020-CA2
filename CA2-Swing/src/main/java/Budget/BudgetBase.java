@@ -183,6 +183,15 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
         // Row 5 - Exit Button
         exitButton = new JButton("Exit");
         addComponent(exitButton, 7, 0);  
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JLabel totalLabel = new JLabel("Total");
+        addComponent(totalLabel,8,0);
+
+        totalField = new JTextField("0",10);
+        totalField.setHorizontalAlignment(JTextField.RIGHT);
+        totalField.setEditable(false);
+        addComponent(totalField,8,1);
 
         // set up  listeners (in a spearate method)
         initListeners();
@@ -204,6 +213,7 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
             public void actionPerformed(ActionEvent e) {
                 calculateTotalIncome();
                 calculateTotalExpenditures();
+                calculatetotal();
             }
         });
 
@@ -245,15 +255,23 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
         double groceries = getTextFieldValue(groceriesField);
         double rent = getTextFieldValue(rentField);
         double electricBill = getTextFieldValue(electricField);
+        double gasBill = getTextFieldValue(gasField);
 
-
-        double totalExpenditures = (groceries+rent+electricBill);
+        double totalExpenditures = (groceries+rent+electricBill+gasBill);
         totalExpendituresField.setText(String.format("%.2f",totalExpenditures));
         return totalExpenditures;
     }
-    // return the value if a text field as a double
-    // --return 0 if field is blank
-    // --return NaN if field is not a number
+  
+    public double calculatetotal(){
+
+        double income = calculateTotalIncome();
+        double expenditures = calculateTotalExpenditures();
+
+        double total = income - expenditures;
+        totalField.setText(String.format("%.2f",total));
+        return total;
+    }
+   
     private double getTextFieldValue(JTextField field) {
 
         // get value as String from field
