@@ -1,3 +1,9 @@
+/* My Issues
+
+Does not revert back to week just keeps multiplying
+Does not update when new number inputed 
+
+*/
 // base code for student budget assessment
 // Students do not need to use this code in their assessment, fine to junk it and do something different!
 //
