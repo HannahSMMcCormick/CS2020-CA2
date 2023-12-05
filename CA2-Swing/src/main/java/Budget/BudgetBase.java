@@ -25,29 +25,29 @@ import java.awt.event.*;
 import java.awt.*;
 
 // class definition
-public class BudgetBase extends JPanel {    // based on Swing JPanel
+public class BudgetBase extends JPanel { // based on Swing JPanel
 
     // high level UI stuff
-    JFrame topLevelFrame;  // top-level JFrame
+    JFrame topLevelFrame; // top-level JFrame
     GridBagConstraints layoutConstraints = new GridBagConstraints(); // used to control layout
 
     // widgets which may have listeners and/or values
-    private JButton calculateButton;   // Calculate button
+    private JButton calculateButton; // Calculate button
     private JButton exitButton; // Exit button
 
-    public JTextField wagesField;     // Wages text field
-    public JTextField loansField;     // Loans text field
-    public JTextField salesField;     //Sales text field
-    public JTextField trustFundField; //TrustFund text field
+    public JTextField wagesField; // Wages text field
+    public JTextField loansField; // Loans text field
+    public JTextField salesField; // Sales text field
+    public JTextField trustFundField; // TrustFund text field
 
-    public JTextField groceriesField; //Groceries text field
-    public JTextField rentField;      //Rent text field
-    public JTextField electricField; //Electric bill text field
-    public JTextField gasField;      //Gas bill text field
+    public JTextField groceriesField; // Groceries text field
+    public JTextField rentField; // Rent text field
+    public JTextField electricField; // Electric bill text field
+    public JTextField gasField; // Gas bill text field
 
     public JTextField totalIncomeField; // Total Income field
-    public JTextField totalExpendituresField; //Total Expenditures field
-    public JTextField totalField;      //Total overall field
+    public JTextField totalExpendituresField; // Total Expenditures field
+    public JTextField totalField; // Total overall field
 
     public JComboBox<String> wagesFrequencyComboBox;
     public JComboBox<String> loansFrequencyComboBox;
@@ -59,17 +59,16 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
     public JComboBox<String> electricFrequencyComboBox;
     public JComboBox<String> gasFrequencyComboBox;
 
-
-
-    // constructor - create UI  (dont need to change this)
+    // constructor - create UI (dont need to change this)
     public BudgetBase(JFrame frame) {
         topLevelFrame = frame; // keep track of top-level frame
-        setLayout(new GridBagLayout());  // use GridBag layout
-        initComponents();  // initalise components
+        setLayout(new GridBagLayout()); // use GridBag layout
+        initComponents(); // initalise components
     }
 
     // initialise componenents
-    // Note that this method is quite long.  Can be shortened by putting Action Listener stuff in a separate method
+    // Note that this method is quite long. Can be shortened by putting Action
+    // Listener stuff in a separate method
     // will be generated automatically by IntelliJ, Eclipse, etc
     public void initComponents() { 
 
@@ -90,8 +89,8 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
         wagesFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
         addComponent(wagesFrequencyComboBox, 2,0);
 
-        wagesFrequencyComboBox.addActionListener(e -> handleFrequencyChange(wagesField, wagesFrequencyComboBox));
-
+        //wagesFrequencyComboBox.addActionListener(e -> handleFrequencyChange(wagesField, wagesFrequencyComboBox));
+        wagesFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
 
         // Row 2 - Loans label followed by loans textbox
         JLabel loansLabel = new JLabel("Loans");
@@ -102,11 +101,17 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
         loansField.setHorizontalAlignment(JTextField.RIGHT) ;    // number is at right end of field
         addComponent(loansField, 3, 1); 
 
-          loansFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
+        loansFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
             addComponent(loansFrequencyComboBox, 4,0);
 
-        loansFrequencyComboBox.addActionListener(e -> handleFrequencyChange(loansField, loansFrequencyComboBox));
-
+        //loansFrequencyComboBox.addActionListener(e -> handleFrequencyChange(loansField, loansFrequencyComboBox));
+        loansFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
+        loansField.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
+                calculateButton.doClick();
+            }
+        });
+        
 
         // Row 3 - Sales label followed by sales textbox
         JLabel salesLabel = new JLabel("Sales");
@@ -119,8 +124,8 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
          salesFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
             addComponent(salesFrequencyComboBox, 6,0);
 
-        salesFrequencyComboBox.addActionListener(e -> handleFrequencyChange(salesField, salesFrequencyComboBox));
-
+        //salesFrequencyComboBox.addActionListener(e -> handleFrequencyChange(salesField, salesFrequencyComboBox));
+        salesFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
     
 
         JLabel trustFundLabel = new JLabel("Trust Fund");
@@ -133,8 +138,8 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
          trustFundFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
             addComponent(trustFundFrequencyComboBox, 8,0);
 
-        trustFundFrequencyComboBox.addActionListener(e -> handleFrequencyChange(trustFundField, trustFundFrequencyComboBox));
-
+        //trustFundFrequencyComboBox.addActionListener(e -> handleFrequencyChange(trustFundField, trustFundFrequencyComboBox));
+        trustFundFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
     
 
         // Row 4 - Total Income label followed by total income field
@@ -164,8 +169,8 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
             groceriesFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
             addComponent(groceriesFrequencyComboBox, 2,2);
 
-        groceriesFrequencyComboBox.addActionListener(e -> handleFrequencyChange(groceriesField, groceriesFrequencyComboBox));
-
+        //groceriesFrequencyComboBox.addActionListener(e -> handleFrequencyChange(groceriesField, groceriesFrequencyComboBox));
+        groceriesFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
 
         //Row 2 - Rent label followed by rent textbox
         JLabel rentLabel = new JLabel("Rent");
@@ -179,8 +184,8 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
            rentFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
             addComponent(rentFrequencyComboBox, 4,2);
 
-        rentFrequencyComboBox.addActionListener(e -> handleFrequencyChange(rentField, rentFrequencyComboBox));
-
+        //rentFrequencyComboBox.addActionListener(e -> handleFrequencyChange(rentField, rentFrequencyComboBox));
+rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
 
         //Row 3- ElectricBill label followed by electricBill textbox
         JLabel electricLabel = new JLabel("Electric Bill");
@@ -193,8 +198,8 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
           electricFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
             addComponent(electricFrequencyComboBox, 6,2);
 
-        electricFrequencyComboBox.addActionListener(e -> handleFrequencyChange(electricField, electricFrequencyComboBox));
-
+        //electricFrequencyComboBox.addActionListener(e -> handleFrequencyChange(electricField, electricFrequencyComboBox));
+        electricFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
 
         JLabel gasLabel = new JLabel("Gas Bill");
         addComponent(gasLabel,7,2);
@@ -206,8 +211,8 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
         gasFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
         addComponent(gasFrequencyComboBox, 8,2);
 
-        gasFrequencyComboBox.addActionListener(e -> handleFrequencyChange(gasField, gasFrequencyComboBox));
-
+        //gasFrequencyComboBox.addActionListener(e -> handleFrequencyChange(gasField, gasFrequencyComboBox));
+        gasFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
 
         //Row 4- Show total Expenditures
         JLabel totalExpendituresLabel = new JLabel("Total Expenditures");
@@ -261,19 +266,11 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
             }
         });
 
-        
-
     }
 
-
-
-
-    
-
-
-    // add a component at specified row and column in UI.  (0,0) is top-left corner
+    // add a component at specified row and column in UI. (0,0) is top-left corner
     public void addComponent(Component component, int gridrow, int gridcol) {
-        layoutConstraints.fill = GridBagConstraints.HORIZONTAL;   // always use horixontsl filll
+        layoutConstraints.fill = GridBagConstraints.HORIZONTAL; // always use horixontsl filll
         layoutConstraints.gridx = gridcol;
         layoutConstraints.gridy = gridrow;
         add(component, layoutConstraints);
@@ -281,68 +278,79 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
     }
 
     // update totalIncomeField (eg, when Calculate is pressed)
-    // use double to hold numbers, so user can type fractional amounts such as 134.50
+    // use double to hold numbers, so user can type fractional amounts such as
+    // 134.50
     public double calculateTotalIncome() {
 
-        // get values from income text fields.  valie is NaN if an error occurs
-        double wages = getTextFieldValue(wagesField);
-        double loans = getTextFieldValue(loansField);
-        double sales = getTextFieldValue(salesField);
-        double trustFund = getTextFieldValue(trustFundField);
-        
+        // get values from income text fields. valie is NaN if an error occurs
+        double wages = getTextFieldValue(wagesField) * getMultiplier(wagesFrequencyComboBox);
+        double loans = getTextFieldValue(loansField) * getMultiplier(loansFrequencyComboBox);
+        double sales = getTextFieldValue(salesField) * getMultiplier(salesFrequencyComboBox); 
+        double trustFund = getTextFieldValue(trustFundField) *getMultiplier(trustFundFrequencyComboBox);
+
+
         // clear total field and return if any value is NaN (error)
-        if (Double.isNaN(wages) || Double.isNaN(loans)|| Double.isNaN(sales)|| Double.isNaN(trustFund)) {
-            totalIncomeField.setText("");  // clear total income field
-            return 0.0;   // exit method and do nothing
+        if (Double.isNaN(wages) || Double.isNaN(loans) || Double.isNaN(sales) || Double.isNaN(trustFund)) {
+            totalIncomeField.setText(""); // clear total income field
+            return 0.0; // exit method and do nothing
         }
         // otherwise calculate total income and update text field
-        double totalIncome = (wages + loans + sales+ trustFund);
-        totalIncomeField.setText(String.format("%.2f",totalIncome));  // format with 2 digits after the .
+        double totalIncome = (wages + loans + sales + trustFund);
+        totalIncomeField.setText(String.format("%.2f", totalIncome)); // format with 2 digits after the .
         return totalIncome;
 
     }
 
-    public double calculateTotalExpenditures(){
+    public double getMultiplier(JComboBox<String> dropDownBox) {
+        if (dropDownBox.getSelectedItem().toString().equals("Month")) {
+            return 4.3333333;
+        } else if (dropDownBox.getSelectedItem().toString().equals("Year")) {
+            return 4.3333333 * 12;
+        }
+        return 1;
+    }
 
-        double groceries = getTextFieldValue(groceriesField);
-        double rent = getTextFieldValue(rentField);
-        double electricBill = getTextFieldValue(electricField);
-        double gasBill = getTextFieldValue(gasField);
+    public double calculateTotalExpenditures() {
 
-        if (Double.isNaN(groceries) || Double.isNaN(rent)|| Double.isNaN(electricBill)|| Double.isNaN(gasBill)) {
-            totalExpendituresField.setText("");  // clear total income field
-            return 0.0;   // exit method and do nothing
+        double groceries = getTextFieldValue(groceriesField) * getMultiplier(groceriesFrequencyComboBox);
+        double rent = getTextFieldValue(rentField)*getMultiplier(rentFrequencyComboBox);
+        double electricBill = getTextFieldValue(electricField)*getMultiplier(electricFrequencyComboBox);
+        double gasBill = getTextFieldValue(gasField)*getMultiplier(gasFrequencyComboBox);
+
+        if (Double.isNaN(groceries) || Double.isNaN(rent) || Double.isNaN(electricBill) || Double.isNaN(gasBill)) {
+            totalExpendituresField.setText(""); // clear total income field
+            return 0.0; // exit method and do nothing
         }
 
-        double totalExpenditures = (groceries+rent+electricBill+gasBill);
-        totalExpendituresField.setText(String.format("%.2f",totalExpenditures));
+        double totalExpenditures = (groceries + rent + electricBill + gasBill);
+        totalExpendituresField.setText(String.format("%.2f", totalExpenditures));
         return totalExpenditures;
     }
-  
-    public double calculatetotal(){
+
+    public double calculatetotal() {
 
         double income = calculateTotalIncome();
         double expenditures = calculateTotalExpenditures();
 
         if (Double.isNaN(income) || Double.isNaN(expenditures)) {
-            totalField.setText("Error");  // clear total income field
-            return Double.NaN;  
+            totalField.setText("Error"); // clear total income field
+            return Double.NaN;
         }
 
         double total = income - expenditures;
-        totalField.setText(String.format("%.2f",total));
-        return (double)total;
+        totalField.setText(String.format("%.2f", total));
+        return (double) total;
     }
-   
-    public void updatetotalcolour(){
+
+    public void updatetotalcolour() {
 
         double total = calculatetotal();
 
-        if (total < 0){
+        if (total < 0) {
 
             totalField.setForeground(Color.BLACK);
             totalField.setBackground(Color.RED);
-        } else{
+        } else {
 
             totalField.setForeground(Color.WHITE);
             totalField.setBackground(Color.BLACK);
@@ -350,124 +358,126 @@ public class BudgetBase extends JPanel {    // based on Swing JPanel
         }
     }
 
-    public void wagefrequency(){
-        handleFrequencyChange(wagesField, wagesFrequencyComboBox);
+    // public void wagefrequency(){
+    // handleFrequencyChange(wagesField, wagesFrequencyComboBox);
 
-        }
+    // }
 
-    public void loansfrequency(){
-        handleFrequencyChange(loansField, loansFrequencyComboBox);
+    // public void loansfrequency(){
+    // handleFrequencyChange(loansField, loansFrequencyComboBox);
 
-        }
+    // }
 
-    public void salesfrequency(){
-        handleFrequencyChange(salesField, salesFrequencyComboBox);
+    // public void salesfrequency(){
+    // handleFrequencyChange(salesField, salesFrequencyComboBox);
 
-        }
+    // }
 
-    public void trustFundfrequency(){
-        handleFrequencyChange(trustFundField, trustFundFrequencyComboBox);
+    // public void trustFundfrequency(){
+    // handleFrequencyChange(trustFundField, trustFundFrequencyComboBox);
 
-        }
+    // }
 
-    public void groceriesfrequency(){
-        handleFrequencyChange(groceriesField, groceriesFrequencyComboBox);
+    // public void groceriesfrequency(){
+    // handleFrequencyChange(groceriesField, groceriesFrequencyComboBox);
 
-        }
+    // }
 
-    public void rentfrequency(){
-        handleFrequencyChange(rentField, rentFrequencyComboBox);
+    // public void rentfrequency(){
+    // handleFrequencyChange(rentField, rentFrequencyComboBox);
 
-        }
+    // }
 
-    public void electricfrequency(){
-        handleFrequencyChange(electricField, electricFrequencyComboBox);
+    // public void electricfrequency(){
+    // handleFrequencyChange(electricField, electricFrequencyComboBox);
 
-        }
+    // }
 
-    public void gasfrequency(){
-        handleFrequencyChange(gasField, gasFrequencyComboBox);
+    // public void gasfrequency(){
+    // handleFrequencyChange(gasField, gasFrequencyComboBox);
 
-        }
+    // }
 
-    public void handleFrequencyChange(JTextField field, JComboBox<String> comboBox){
+    // public void handleFrequencyChange(JTextField field, JComboBox<String>
+    // comboBox){
 
-        String frequency = (String) comboBox.getSelectedItem();
-        String fieldValue = field.getText();
+    // String frequency = (String) comboBox.getSelectedItem();
+    // String fieldValue = field.getText();
 
-        if (!fieldValue.isBlank()){
+    // if (!fieldValue.isBlank()){
 
-            double value = Double.parseDouble(fieldValue);
+    // double value = Double.parseDouble(fieldValue);
 
-            switch(frequency){
+    // switch(frequency){
 
-                case "Month":
-                    value *= 4.33333;
-                    break;
-                case "Year":
-                    value *=52;
-                    break;
-                default:
-                    break;
-            }
+    // case "Month":
+    // value *= 4.33333;
+    // break;
+    // case "Year":
+    // value *=52;
+    // break;
+    // default:
+    // break;
+    // }
 
-            field.setText(String.format("%.2f",value));
+    // field.setText(String.format("%.2f",value));
 
-                calculateTotalIncome();
-                calculateTotalExpenditures();
-                calculatetotal();
-                updatetotalcolour();
+    // calculateTotalIncome();
+    // calculateTotalExpenditures();
+    // calculatetotal();
+    // updatetotalcolour();
 
-        }
+    // }
 
-
-    }
+    // }
     private double getTextFieldValue(JTextField field) {
 
         // get value as String from field
-        String fieldString = field.getText();  // get text from text field
+        String fieldString = field.getText(); // get text from text field
 
-        if (fieldString.isBlank()) {   // if text field is blank, return 0
+        if (fieldString.isBlank()) { // if text field is blank, return 0
             return 0;
-        }else if (!fieldString.matches("^\\d*\\.?\\d+$")){
-            if (fieldString.startsWith("-")){
-            JOptionPane.showMessageDialog(topLevelFrame,"Please only enter positive values");
-            }else{
-            JOptionPane.showMessageDialog(topLevelFrame,"Please only enter numeric values");
+        } else if (!fieldString.matches("^\\d*\\.?\\d+$")) {
+            if (fieldString.startsWith("-")) {
+                JOptionPane.showMessageDialog(topLevelFrame, "Please only enter positive values");
+            } else {
+                JOptionPane.showMessageDialog(topLevelFrame, "Please only enter numeric values");
             }
             return Double.NaN;
-        }else{
+        } else {
 
             return Double.parseDouble(fieldString);
 
         }
-    
+
     }
-    // below is standard code to set up Swing, which students shouldnt need to edit much
+
+    // below is standard code to set up Swing, which students shouldnt need to edit
+    // much
     // standard mathod to show UI
     private static void createAndShowGUI() {
- 
-        //Create and set up the window.
+
+        // Create and set up the window.
         JFrame frame = new JFrame("Budget Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
- 
-        //Create and set up the content pane.
+
+        // Create and set up the content pane.
         BudgetBase newContentPane = new BudgetBase(frame);
-        newContentPane.setOpaque(true); //content panes must be opaque
+        newContentPane.setOpaque(true); // content panes must be opaque
         frame.setContentPane(newContentPane);
- 
-        //Display the window.
+
+        // Display the window.
         frame.pack();
         frame.setVisible(true);
     }
- 
+
     // standard main class to set up Swing UI
     public static void main(String[] args) {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
+        // Schedule a job for the event-dispatching thread:
+        // creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                createAndShowGUI(); 
+                createAndShowGUI();
             }
         });
     }
