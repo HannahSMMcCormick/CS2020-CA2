@@ -18,6 +18,7 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
     private JButton undoButton;
     private JButton calculateButton; // Calculate button
     private JButton exitButton; // Exit button
+    private boolean undoInProgress = false;
 
     public JTextField wagesField; // Wages text field
     public JTextField loansField; // Loans text field
@@ -280,6 +281,10 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
         // calculateButton - call calculateTotalIncome() when pressed
         calculateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                if (undoInProgress){
+                    return;
+
+                }
                 saveState();
                 calculateTotalIncome();
                 calculateTotalExpenditures();
@@ -290,8 +295,9 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
 
         undoButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(ActionEvent e){
-
+                undoInProgress = true;
                 restoreState();
+                undoInProgress = false;
 
             }
         });

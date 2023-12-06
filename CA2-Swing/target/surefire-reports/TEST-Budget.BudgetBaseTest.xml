@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="Budget.BudgetBaseTest" time="10.348" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="Budget.BudgetBaseTest" time="7.153" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="awt.toolkit" value="sun.awt.X11.XToolkit"/>
     <property name="java.specification.version" value="11"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/zulu-11-amd64/lib"/>
-    <property name="sun.java.command" value="/home/codio/workspace/CA2-Swing/target/surefire/surefirebooter5301197929785991215.jar /home/codio/workspace/CA2-Swing/target/surefire 2023-12-06T14-00-08_700-jvmRun1 surefire9478703746111865521tmp surefire_03417067462607468882tmp"/>
+    <property name="sun.java.command" value="/home/codio/workspace/CA2-Swing/target/surefire/surefirebooter13997213184453738985.jar /home/codio/workspace/CA2-Swing/target/surefire 2023-12-06T17-04-32_741-jvmRun1 surefire6230149413373134619tmp surefire_05931658926072106506tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/home/codio/workspace/CA2-Swing/target/test-classes:/home/codio/workspace/CA2-Swing/target/classes:/home/codio/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.8.2/junit-jupiter-engine-5.8.2.jar:/home/codio/.m2/repository/org/junit/platform/junit-platform-engine/1.8.2/junit-platform-engine-1.8.2.jar:/home/codio/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/home/codio/.m2/repository/org/junit/platform/junit-platform-commons/1.8.2/junit-platform-commons-1.8.2.jar:/home/codio/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.8.2/junit-jupiter-api-5.8.2.jar:/home/codio/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -32,7 +32,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="jdk.vendor.version" value="Zulu11.41+23-CA"/>
     <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="/home/codio/workspace/CA2-Swing/target/surefire/surefirebooter5301197929785991215.jar"/>
+    <property name="surefire.real.class.path" value="/home/codio/workspace/CA2-Swing/target/surefire/surefirebooter13997213184453738985.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="11.0.8+10-LTS"/>
     <property name="user.name" value="codio"/>
@@ -58,8 +58,8 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="55.0"/>
   </properties>
-  <testcase name="testNonNumeric" classname="Budget.BudgetBaseTest" time="9.161"/>
-  <testcase name="testEmptyFields" classname="Budget.BudgetBaseTest" time="0.036"/>
-  <testcase name="testCalculateTotalIncome" classname="Budget.BudgetBaseTest" time="0.032"/>
-  <testcase name="testNegative" classname="Budget.BudgetBaseTest" time="1.085"/>
+  <testcase name="testNonNumeric" classname="Budget.BudgetBaseTest" time="6.454"/>
+  <testcase name="testEmptyFields" classname="Budget.BudgetBaseTest" time="0.025"/>
+  <testcase name="testCalculateTotalIncome" classname="Budget.BudgetBaseTest" time="0.021"/>
+  <testcase name="testNegative" classname="Budget.BudgetBaseTest" time="0.645"/>
 </testsuite>
