@@ -1,28 +1,11 @@
-/* My Issues
 
-Does not revert back to week just keeps multiplying
-Does not update when new number inputed 
-
-*/
-// base code for student budget assessment
-// Students do not need to use this code in their assessment, fine to junk it and do something different!
-//
-// Your submission must be a maven project, and must be submitted via Codio, and run in Codio
-//
-// user can enter in wages and loans and calculate total income
-//
-// run in Codio 
-// To see GUI, run with java and select Box Url from Codio top line menu
-//
-// Layout - Uses GridBag layout in a straightforward way, every component has a (column, row) position in the UI grid
-// Not the prettiest layout, but relatively straightforward
-// Students who use IntelliJ or Eclipse may want to use the UI designers in these IDEs , instead of GridBagLayout
 package Budget;
 
 // Swing imports
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.util.Stack;
 
 // class definition
 public class BudgetBase extends JPanel { // based on Swing JPanel
@@ -32,6 +15,7 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
     GridBagConstraints layoutConstraints = new GridBagConstraints(); // used to control layout
 
     // widgets which may have listeners and/or values
+    private JButton undoButton;
     private JButton calculateButton; // Calculate button
     private JButton exitButton; // Exit button
 
@@ -59,12 +43,18 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
     public JComboBox<String> electricFrequencyComboBox;
     public JComboBox<String> gasFrequencyComboBox;
 
+    public Stack<Stack<String>> undoStack;
+
     // constructor - create UI (dont need to change this)
     public BudgetBase(JFrame frame) {
         topLevelFrame = frame; // keep track of top-level frame
         setLayout(new GridBagLayout()); // use GridBag layout
         initComponents(); // initalise components
+        undoStack = new Stack<>();
+        saveState();
     }
+
+
 
     // initialise componenents
     // Note that this method is quite long. Can be shortened by putting Action
@@ -91,6 +81,11 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
 
         //wagesFrequencyComboBox.addActionListener(e -> handleFrequencyChange(wagesField, wagesFrequencyComboBox));
         wagesFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
+        wagesField.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
+                calculateButton.doClick();
+            }
+        });
 
         // Row 2 - Loans label followed by loans textbox
         JLabel loansLabel = new JLabel("Loans");
@@ -126,6 +121,11 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
 
         //salesFrequencyComboBox.addActionListener(e -> handleFrequencyChange(salesField, salesFrequencyComboBox));
         salesFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
+          salesField.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
+                calculateButton.doClick();
+            }
+        });
     
 
         JLabel trustFundLabel = new JLabel("Trust Fund");
@@ -140,6 +140,11 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
 
         //trustFundFrequencyComboBox.addActionListener(e -> handleFrequencyChange(trustFundField, trustFundFrequencyComboBox));
         trustFundFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
+          trustFundField.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
+                calculateButton.doClick();
+            }
+        });
     
 
         // Row 4 - Total Income label followed by total income field
@@ -171,6 +176,11 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
 
         //groceriesFrequencyComboBox.addActionListener(e -> handleFrequencyChange(groceriesField, groceriesFrequencyComboBox));
         groceriesFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
+           groceriesField.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
+                calculateButton.doClick();
+            }
+        });
 
         //Row 2 - Rent label followed by rent textbox
         JLabel rentLabel = new JLabel("Rent");
@@ -186,6 +196,11 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
 
         //rentFrequencyComboBox.addActionListener(e -> handleFrequencyChange(rentField, rentFrequencyComboBox));
 rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
+   rentField.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
+                calculateButton.doClick();
+            }
+        });
 
         //Row 3- ElectricBill label followed by electricBill textbox
         JLabel electricLabel = new JLabel("Electric Bill");
@@ -200,6 +215,11 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
 
         //electricFrequencyComboBox.addActionListener(e -> handleFrequencyChange(electricField, electricFrequencyComboBox));
         electricFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
+           electricField.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
+                calculateButton.doClick();
+            }
+        });
 
         JLabel gasLabel = new JLabel("Gas Bill");
         addComponent(gasLabel,7,2);
@@ -213,6 +233,11 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
 
         //gasFrequencyComboBox.addActionListener(e -> handleFrequencyChange(gasField, gasFrequencyComboBox));
         gasFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
+           gasField.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
+                calculateButton.doClick();
+            }
+        });
 
         //Row 4- Show total Expenditures
         JLabel totalExpendituresLabel = new JLabel("Total Expenditures");
@@ -233,6 +258,11 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
         exitButton = new JButton("Exit");
         addComponent(exitButton, 1, 4);  
 
+        undoButton = new JButton("Undo");
+        addComponent(undoButton, 2,4);
+
+
+
         JLabel totalLabel = new JLabel("Total");
         addComponent(totalLabel,3,4);
 
@@ -252,6 +282,7 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
         // exitButton - exit program when pressed
         exitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                restoreState();
                 System.exit(0);
             }
         });
@@ -259,6 +290,7 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
         // calculateButton - call calculateTotalIncome() when pressed
         calculateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                saveState();
                 calculateTotalIncome();
                 calculateTotalExpenditures();
                 calculatetotal();
@@ -266,6 +298,14 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
             }
         });
 
+        undoButton.addActionListener(new java.awt.event.ActionListener(){
+
+            public void actionPerformed(ActionEvent e){
+
+                restoreState();
+
+            }
+        });
     }
 
     // add a component at specified row and column in UI. (0,0) is top-left corner
@@ -358,78 +398,6 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
         }
     }
 
-    // public void wagefrequency(){
-    // handleFrequencyChange(wagesField, wagesFrequencyComboBox);
-
-    // }
-
-    // public void loansfrequency(){
-    // handleFrequencyChange(loansField, loansFrequencyComboBox);
-
-    // }
-
-    // public void salesfrequency(){
-    // handleFrequencyChange(salesField, salesFrequencyComboBox);
-
-    // }
-
-    // public void trustFundfrequency(){
-    // handleFrequencyChange(trustFundField, trustFundFrequencyComboBox);
-
-    // }
-
-    // public void groceriesfrequency(){
-    // handleFrequencyChange(groceriesField, groceriesFrequencyComboBox);
-
-    // }
-
-    // public void rentfrequency(){
-    // handleFrequencyChange(rentField, rentFrequencyComboBox);
-
-    // }
-
-    // public void electricfrequency(){
-    // handleFrequencyChange(electricField, electricFrequencyComboBox);
-
-    // }
-
-    // public void gasfrequency(){
-    // handleFrequencyChange(gasField, gasFrequencyComboBox);
-
-    // }
-
-    // public void handleFrequencyChange(JTextField field, JComboBox<String>
-    // comboBox){
-
-    // String frequency = (String) comboBox.getSelectedItem();
-    // String fieldValue = field.getText();
-
-    // if (!fieldValue.isBlank()){
-
-    // double value = Double.parseDouble(fieldValue);
-
-    // switch(frequency){
-
-    // case "Month":
-    // value *= 4.33333;
-    // break;
-    // case "Year":
-    // value *=52;
-    // break;
-    // default:
-    // break;
-    // }
-
-    // field.setText(String.format("%.2f",value));
-
-    // calculateTotalIncome();
-    // calculateTotalExpenditures();
-    // calculatetotal();
-    // updatetotalcolour();
-
-    // }
-
-    // }
     private double getTextFieldValue(JTextField field) {
 
         // get value as String from field
@@ -447,6 +415,73 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
         } else {
 
             return Double.parseDouble(fieldString);
+
+        }
+
+    }
+
+    public void saveState() {
+
+        Stack<String> currentState = new Stack<>();
+
+        currentState.push(wagesField.getText());
+        currentState.push(loansField.getText());
+        currentState.push(salesField.getText());
+        currentState.push(trustFundField.getText());
+
+        currentState.push(groceriesField.getText());
+        currentState.push(rentField.getText());
+        currentState.push(electricField.getText());
+        currentState.push(gasField.getText());
+
+        currentState.push(wagesFrequencyComboBox.getSelectedItem().toString());
+        currentState.push(loansFrequencyComboBox.getSelectedItem().toString());
+        currentState.push(salesFrequencyComboBox.getSelectedItem().toString());
+        currentState.push(trustFundFrequencyComboBox.getSelectedItem().toString());
+
+        currentState.push(groceriesFrequencyComboBox.getSelectedItem().toString());
+        currentState.push(rentFrequencyComboBox.getSelectedItem().toString());
+        currentState.push(electricFrequencyComboBox.getSelectedItem().toString());
+        currentState.push(gasFrequencyComboBox.getSelectedItem().toString());
+
+        undoStack.push(currentState);
+
+    }
+
+
+    public void restoreState(){
+
+        if (!undoStack.isEmpty()){
+
+            Stack<String> prevState = undoStack.pop();
+            gasFrequencyComboBox.setSelectedItem(prevState.pop());
+            electricFrequencyComboBox.setSelectedItem(prevState.pop());
+            rentFrequencyComboBox.setSelectedItem(prevState.pop());
+            groceriesFrequencyComboBox.setSelectedItem(prevState.pop());
+
+            trustFundFrequencyComboBox.setSelectedItem(prevState.pop());
+            salesFrequencyComboBox.setSelectedItem(prevState.pop());
+            loansFrequencyComboBox.setSelectedItem(prevState.pop());
+            wagesFrequencyComboBox.setSelectedItem(prevState.pop());
+        
+            gasField.setText(prevState.pop());
+            electricField.setText(prevState.pop()); 
+            rentField.setText(prevState.pop());
+            groceriesField.setText(prevState.pop());
+
+            trustFundField.setText(prevState.pop());
+            salesField.setText(prevState.pop());
+            loansField.setText(prevState.pop());
+            wagesField.setText(prevState.pop());
+
+            calculateTotalIncome();
+            calculateTotalExpenditures();
+            calculatetotal();
+            updatetotalcolour();
+        
+        } else{
+
+            System.out.println("No more undo's");
 
         }
 
