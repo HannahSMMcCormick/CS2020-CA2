@@ -54,8 +54,6 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
         saveState();
     }
 
-
-
     // initialise componenents
     // Note that this method is quite long. Can be shortened by putting Action
     // Listener stuff in a separate method
@@ -79,7 +77,6 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
         wagesFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
         addComponent(wagesFrequencyComboBox, 2,0);
 
-        //wagesFrequencyComboBox.addActionListener(e -> handleFrequencyChange(wagesField, wagesFrequencyComboBox));
         wagesFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
         wagesField.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent e) {
@@ -99,7 +96,6 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
         loansFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
             addComponent(loansFrequencyComboBox, 4,0);
 
-        //loansFrequencyComboBox.addActionListener(e -> handleFrequencyChange(loansField, loansFrequencyComboBox));
         loansFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
         loansField.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent e) {
@@ -119,7 +115,6 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
          salesFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
             addComponent(salesFrequencyComboBox, 6,0);
 
-        //salesFrequencyComboBox.addActionListener(e -> handleFrequencyChange(salesField, salesFrequencyComboBox));
         salesFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
           salesField.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent e) {
@@ -138,7 +133,6 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
          trustFundFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
             addComponent(trustFundFrequencyComboBox, 8,0);
 
-        //trustFundFrequencyComboBox.addActionListener(e -> handleFrequencyChange(trustFundField, trustFundFrequencyComboBox));
         trustFundFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
           trustFundField.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent e) {
@@ -174,7 +168,6 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
             groceriesFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
             addComponent(groceriesFrequencyComboBox, 2,2);
 
-        //groceriesFrequencyComboBox.addActionListener(e -> handleFrequencyChange(groceriesField, groceriesFrequencyComboBox));
         groceriesFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
            groceriesField.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent e) {
@@ -194,7 +187,6 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
            rentFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
             addComponent(rentFrequencyComboBox, 4,2);
 
-        //rentFrequencyComboBox.addActionListener(e -> handleFrequencyChange(rentField, rentFrequencyComboBox));
 rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
    rentField.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent e) {
@@ -213,7 +205,6 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
           electricFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
             addComponent(electricFrequencyComboBox, 6,2);
 
-        //electricFrequencyComboBox.addActionListener(e -> handleFrequencyChange(electricField, electricFrequencyComboBox));
         electricFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
            electricField.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent e) {
@@ -231,7 +222,6 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
         gasFrequencyComboBox = new JComboBox<>(new String[]{"Week","Month","Year"});
         addComponent(gasFrequencyComboBox, 8,2);
 
-        //gasFrequencyComboBox.addActionListener(e -> handleFrequencyChange(gasField, gasFrequencyComboBox));
         gasFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
            gasField.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent e) {
@@ -299,7 +289,6 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
         });
 
         undoButton.addActionListener(new java.awt.event.ActionListener(){
-
             public void actionPerformed(ActionEvent e){
 
                 restoreState();
@@ -453,6 +442,7 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
 
         if (!undoStack.isEmpty()){
 
+            System.out.println("Undo Stack size: " + undoStack.size());
             Stack<String> prevState = undoStack.pop();
             gasFrequencyComboBox.setSelectedItem(prevState.pop());
             electricFrequencyComboBox.setSelectedItem(prevState.pop());
