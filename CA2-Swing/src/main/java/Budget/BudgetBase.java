@@ -15,7 +15,7 @@ public class BudgetBase extends JPanel { // based on Swing JPanel
     GridBagConstraints layoutConstraints = new GridBagConstraints(); // used to control layout
 
     // widgets which may have listeners and/or values
-    private JButton undoButton;
+    public JButton undoButton;
     private JButton calculateButton; // Calculate button
     private JButton exitButton; // Exit button
     private boolean undoInProgress = false;
@@ -295,10 +295,7 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
 
         undoButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(ActionEvent e){
-                undoInProgress = true;
                 restoreState();
-                undoInProgress = false;
-
             }
         });
     }
@@ -447,7 +444,7 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
     public void restoreState(){
 
         if (!undoStack.isEmpty()){
-
+            undoInProgress = true;
             System.out.println("Undo Stack size: " + undoStack.size());
             Stack<String> prevState = undoStack.pop();
             gasFrequencyComboBox.setSelectedItem(prevState.pop());
@@ -474,6 +471,7 @@ rentFrequencyComboBox.addActionListener(e -> calculateButton.doClick());
             calculateTotalExpenditures();
             calculatetotal();
             updatetotalcolour();
+            undoInProgress = false;
         
         } else{
 
